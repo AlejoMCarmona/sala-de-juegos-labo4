@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --color-fondo: #0D1B2A;
+    --color-principal-texto: #E0E1DD;
+    --fuente-titulo-principal: "Handjet", sans-serif;
+    --fuente-primaria: "SUSE", sans-serif;
+}
+
+body {
+    background-color: #0D1B2A;
+}
+
+.texto-tamaño-subtitulos {
+  font-size: 5rem;
+}
+.texto-color-principal {
+    color: var(--color-principal-texto);
+}
+.texto-fuente-primaria {
+    font-family: var(--fuente-primaria);
+}

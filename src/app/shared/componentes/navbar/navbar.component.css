@@ -1,0 +1,7 @@
+.navbar {
+    background-color: #E0E1DD !important;
+}
+
+.active-route {
+    font-weight: bolder;
+}
