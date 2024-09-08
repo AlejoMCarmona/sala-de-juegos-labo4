@@ -1,3 +1,5 @@
+
+/*Variables:*/
 :root {
     --color-fondo: #0D1B2A;
     --color-principal-texto: #E0E1DD;
@@ -5,14 +7,19 @@
     --fuente-primaria: "SUSE", sans-serif;
 }
 
+/*Globales*/
+html, body {
+    overflow-x: hidden;
+  }
 body {
     background-color: #0D1B2A;
 }
 
+/*Clases utiles*/
 .texto-tamaño-subtitulos {
   font-size: 5rem;
 }
-.texto-color-principal {
+.texto-color-primario {
     color: var(--color-principal-texto);
 }
 .texto-fuente-primaria {

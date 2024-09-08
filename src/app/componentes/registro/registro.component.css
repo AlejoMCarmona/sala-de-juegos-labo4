@@ -1,0 +1,7 @@
+.card {
+    background-color: var(--color-fondo);
+}
+
+.card label {
+    color: var(--color-principal-texto);
+}
