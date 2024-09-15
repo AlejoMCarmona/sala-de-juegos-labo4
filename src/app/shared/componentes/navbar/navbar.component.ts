@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
+import { onAuthStateChanged, signOut } from '@firebase/auth';
 import { Auth } from '@angular/fire/auth';
 
 @Component({
