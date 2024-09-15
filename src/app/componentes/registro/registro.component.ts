@@ -22,8 +22,16 @@ export class RegistroComponent {
       createUserWithEmailAndPassword(this.auth, this.email, this.password)
       .then(() => this.router.navigate(['home']))
       .catch(error => {
-        this.lanzarError("ERROR", "Hubo un error a la hora de crear el usuario: Error " + error.code);
-        console.log(error.message);
+        let mensaje = "";
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            mensaje = "Ya existe un usuario registrado con ese correo electrónico";
+          break;
+          default:
+            mensaje = "Hubo un error ineperado a la hora de crear el usuario. Por favor, inténtelo más tarde";
+          break;
+        }
+        this.lanzarError("ERROR", mensaje);
       });
     }
   }
