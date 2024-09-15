@@ -1,6 +1,6 @@
 <div class="container texto-color-primario">
     <div class="row text-center">
-        <h1 class="titulo-principal display-1 texto-fuente-primaria  animate__animated animate__fadeInDown mt-4">Dovahkiin Games</h1>
+        <h1 class="titulo-principal display-1 texto-fuente-primaria animate__animated animate__fadeInDown mt-4">Dovahkiin Games</h1>
         <p class="subtitulo-principal texto-fuente-primaria animate__animated animate__fadeInUp">Desafía tu mente, domina el juego.</p>
     </div>
     <div class="row justify-content-end py-5 text-center text-md-start animate__animated animate__fadeInLeft texto-fuente-primaria">
@@ -14,9 +14,10 @@
     <div class="row animate__animated animate__fadeInLeft texto-fuente-primaria">
         <p class="fs-3 text-center">¡Haz una pausa dentro de tu rutina!</p>
     </div>
-    <div class="row mt-4 texto-fuente-primaria">
-        <a class="mx-auto d-flex justify-content-center align-items-center text-decoration-none border border-light text-light hover-effect" routerLink="/juegos">
-            <span>Jugar</span>
-        </a>
+    <div class="row col-12 animate__animated animate__fadeIn">
+        <p *ngIf="!estaLogueado" class="fs-5 text-center text-white">Debes estar logueado para poder jugar.</p>
+        <listado-juegos [class.disabled]="!estaLogueado"/>
     </div>
+
+
 </div>

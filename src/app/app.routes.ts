@@ -11,5 +11,6 @@ export const routes: Routes = [
         { path: 'quien-soy', component: QuienSoyComponent },
         { path: 'login', component: LoginComponent },
         { path: 'registro', component: RegistroComponent },
+        { path: 'juegos', loadChildren: () => import('./modulos/juegos/juegos.module').then(m => m.JuegosModule) },
         { path: '**', component: PaginaNoEncontradaComponent },     
 ];

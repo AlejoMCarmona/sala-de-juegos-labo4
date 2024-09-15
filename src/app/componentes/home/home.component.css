@@ -38,6 +38,10 @@ a:hover:after {
   width: 100%;
 }
 
+.disabled {
+  pointer-events: none; /* Desactiva clicks */
+  opacity: 0.5; /* Aplica efecto grisado */
+}
 
 /*MEDIA QUERIES*/
 @media (max-width: 1200px) {
