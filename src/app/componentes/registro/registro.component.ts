@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -11,22 +12,24 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent {
-  public nombre: string = '';
-  public apellido: string = '';
   public email: string = '';
   public password: string = '';
-  public fechaNacimiento: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: Auth) {}
 
   public registrarUsuario() {
     if (this.validarCampos()) {
-      this.router.navigate(['login']);
+      createUserWithEmailAndPassword(this.auth, this.email, this.password)
+      .then(() => this.router.navigate(['home']))
+      .catch(error => {
+        this.lanzarError("ERROR", "Hubo un error a la hora de crear el usuario: Error " + error.code);
+        console.log(error.message);
+      });
     }
   }
 
   private validarCampos(): boolean {
-    if (!this.nombre || !this.apellido || !this.email || !this.password || !this.fechaNacimiento) {
+    if (!this.email || !this.password) {
       this.lanzarError('Campos incompletos', 'Por favor, completa todos los campos.');
       return false;
     }

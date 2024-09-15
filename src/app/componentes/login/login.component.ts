@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2'
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
@@ -16,18 +17,20 @@ export class LoginComponent {
   public password!: string;
   public inicioExitoso!: boolean;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: Auth) {}
 
   public autocompletar() {
     this.email = 'admin@test.com';
-    this.password = '12345';
+    this.password = 'PASS12345';
   }
 
   public iniciarSesion() {
-    if (this.email === 'admin@test.com' && this.password === '12345') {
-      this.router.navigate(['juegos']);
+    if (this.email != "" && this.password != "") {
+      signInWithEmailAndPassword(this.auth, this.email, this.password)
+      .then(() => this.router.navigate(['home']))
+      .catch(() => this.lanzarError('Inicio de sesión fallido', 'Las credenciales ingresadas son inválidas'));
     } else {
-      this.lanzarError('Inicio de sesión fallido', 'Las credenciales ingresadas son incorrectas');
+      this.lanzarError('ERROR', 'Debes completar todos los campos para iniciar sesión');
     }
   }
 
