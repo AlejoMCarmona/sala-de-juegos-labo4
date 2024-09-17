@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { JuegosModule } from '../../modulos/juegos/juegos.module';
-import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { NgIf } from '@angular/common';
+import { AuthService } from '../../servicios/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -15,15 +15,11 @@ import { NgIf } from '@angular/common';
 export class HomeComponent implements OnInit {
   public estaLogueado!: boolean;
 
-  constructor (private auth: Auth) {}
+  constructor (private authService: AuthService) {}
 
   ngOnInit() {
-    onAuthStateChanged(this.auth, user => {
-      if (user) {
-        this.estaLogueado = true;
-      } else {
-        this.estaLogueado = false;
-      }
+    this.authService.estaAutenticado().subscribe(autenticado => {
+      this.estaLogueado = autenticado;
     });
   };
 }

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { onAuthStateChanged, signOut } from '@firebase/auth';
-import { Auth } from '@angular/fire/auth';
+import { AuthService } from '../../../servicios/auth.service';
 
 @Component({
   selector: 'shared-navbar',
@@ -16,24 +15,20 @@ export class NavbarComponent implements OnInit {
   public estaLogueado: boolean = false;
   public username: string = "";
 
-  constructor(private auth: Auth) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    onAuthStateChanged(this.auth, user => {
-      if (user) {
-        this.username = user.email?.split("@")[0] ?? "";
-        this.estaLogueado = true;
-      } else {
-        this.estaLogueado = false;
-      }
+    this.authService.estaAutenticado().subscribe(autenticado => {
+      this.estaLogueado = autenticado;
+    });
+    this.authService.obtenerEmail().subscribe(email => {
+      this.username = email?.split("@")[0] ?? "";;
     });
   };
 
   cerrarSesion() {
-    signOut(this.auth)
-    .then(() => {
-      this.estaLogueado = false;
-      console.log("SESIÓN CERRADA");
-    })
+    this.authService.cerrarSesion()
+    .then(() => console.log("Sesión cerrada con éxito"))
+    .catch(() => console.log("Hubo un error al cerrar sesión"));
   }
 }
