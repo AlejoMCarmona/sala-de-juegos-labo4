@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { JuegosModule } from '../../modulos/juegos/juegos.module';
+import { JuegosModule } from '../../modules/juegos/juegos.module';
 import { NgIf } from '@angular/common';
-import { AuthService } from '../../servicios/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AhorcadoComponent } from './componentes/ahorcado/ahorcado.component';
-import { PreguntadosComponent } from './componentes/preguntados/preguntados.component';
-import { MayorOMenorComponent } from './componentes/mayor-o-menor/mayor-o-menor.component';
+import { AhorcadoComponent } from './ahorcado/ahorcado.component';
+import { PreguntadosComponent } from './preguntados/preguntados.component';
+import { MayorOMenorComponent } from './mayor-o-menor/mayor-o-menor.component';
 
 const routes: Routes = [
   {
