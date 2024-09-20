@@ -1,0 +1,4 @@
+<div class="w-100 d-flex flex-row texto-fuente-primaria">
+    <textarea class="w-100 p-2" rows="3" id="textarea-mensaje" #textareaMensaje [(ngModel)]="mensaje"></textarea>
+    <button class="btn btn-primary w-25" (click)="enviarMensaje(textareaMensaje.value)">Enviar</button>
+</div>

@@ -1,0 +1,7 @@
+<div #scrollContainer class="lista-mensajes d-flex flex-column px-2 pt-2">
+    <ng-container *ngFor="let m of mensajes" >
+        <div class="mb-2" [ngClass]="{'mensaje-usuario': esUnMensajeDelUsuario(m.email), 'mensaje-otro': !esUnMensajeDelUsuario(m.email) }">
+            <mensaje class="w-50" [nombre]="m.email" [hora]="m.fecha" [mensaje]="m.mensaje"></mensaje>
+        </div>
+    </ng-container>
+</div>

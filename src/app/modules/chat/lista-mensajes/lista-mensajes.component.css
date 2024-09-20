@@ -1,0 +1,16 @@
+.lista-mensajes {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.mensaje-usuario {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.mensaje-otro {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}

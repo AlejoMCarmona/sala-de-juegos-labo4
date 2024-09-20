@@ -1,0 +1,11 @@
+textarea {
+    resize: none;
+}
+
+.btn-primary {
+    background-color: var(--color-fondo);
+    border: .1rem solid black;
+}
+.btn-primary:hover {
+    background-color: #0c131b;
+}

@@ -1,0 +1,13 @@
+.container-mensaje {
+    background-color: black;
+    word-wrap: break-word;
+}
+
+#nombre {
+    font-size: 1rem;
+}
+
+#hora {
+    font-size: .8rem;
+    vertical-align: bottom;
+}

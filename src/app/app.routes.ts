@@ -12,5 +12,6 @@ export const routes: Routes = [
         { path: 'login', component: LoginComponent },
         { path: 'registro', component: RegistroComponent },
         { path: 'juegos', loadChildren: () => import('./modules/juegos/juegos.module').then(m => m.JuegosModule) },
-        { path: '**', component: PaginaNoEncontradaComponent },     
+        { path: 'chat', loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule) },
+        { path: '**', component: PaginaNoEncontradaComponent },
 ];
