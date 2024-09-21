@@ -13,7 +13,9 @@ export class VentanaChatComponent implements OnInit {
   constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.estaLogueado = this.auth.estaAutenticado();
+    this.auth.estaAutenticado().then(resultado => {
+      this.estaLogueado = resultado;
+    });
   }
 
 

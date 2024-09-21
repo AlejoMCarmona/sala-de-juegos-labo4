@@ -30,16 +30,24 @@ export class AuthService {
     return this.usuarioAutenticado.asObservable();
   }
 
-  public estaAutenticado() {
-    return this.auth.currentUser != null;
+  public estaAutenticado(): Promise<boolean> {
+    return new Promise(resolve => {
+      onAuthStateChanged(this.auth, user => {
+        resolve(!!user);
+      });
+    });
   }
 
-  public obtenerEmailUsuario() {
-    const email = this.auth.currentUser?.email;
-    if (email != "") {
-      return email;
-    }
-    return "";
+  public obtenerEmailUsuario(): Promise<string> {
+    return new Promise(resolve => {
+      onAuthStateChanged(this.auth, user => {
+        if (user && user.email) {
+          resolve(user.email);
+        } else {
+          resolve("");
+        }
+      });
+    });
   }
 
   /**

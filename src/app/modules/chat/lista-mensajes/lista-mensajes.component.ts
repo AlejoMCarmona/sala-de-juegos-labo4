@@ -21,7 +21,9 @@ export class ListaMensajesComponent implements OnInit, OnDestroy, AfterViewCheck
     this.suscripciones.add(this.chatService.obtenerMensajesObservable().subscribe(mensajes => {
       this.mensajes = mensajes;
     }));
-    this.usuario = this.auth.obtenerEmailUsuario() ?? "";
+    this.auth.obtenerEmailUsuario().then(email => {
+      this.usuario = email;
+    });
   }
 
   ngAfterViewChecked(): void {

@@ -1,0 +1,17 @@
+.pantalla {
+    min-height: 50vh;
+    background-color: white;
+}
+
+.tecla {
+    background-color: gray;
+    margin: 2px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+}
+
+.teclado {
+    padding: 10px;
+    border: 1px solid black;
+}

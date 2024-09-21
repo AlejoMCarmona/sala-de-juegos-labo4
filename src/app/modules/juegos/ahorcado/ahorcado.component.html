@@ -1,1 +1,23 @@
-<p class="display-1 text-center text-white">Ahorcado</p>
+<div class="container">
+    <p class="display-1 text-center text-white">Ahorcado</p>
+    <ng-template #mensajeLog>
+        <p class="fs-5 text-center text-white">¿Qué haces aquí? Debes estar logueado para poder jugar.</p>
+    </ng-template>
+    <div *ngIf="estaLogueado; else mensajeLog">
+        <div class="pantalla d-flex flex-column justify-content-end">
+            <div class="display-4 text-center mb-4">{{ palabraOculta }}</div>
+        </div>
+        <div class="teclado">
+            <div class="row d-flex justify-content-center">
+                <ng-container *ngFor="let letra of letras">
+                    <button class="tecla col-1" (click)="adivinarLetra(letra)">{{ letra }}</button>
+                </ng-container>
+            </div>
+        </div>
+        <div class="informacion mt-4 text-center texto-color-primario">
+            <p>Intentos restantes: {{intentosRestantes}}</p>
+            <p>Puntuación: {{puntos}}</p>
+        </div>
+    </div>
+
+</div>
