@@ -25,3 +25,8 @@ body {
 .texto-fuente-primaria {
     font-family: var(--fuente-primaria);
 }
+/*Deshabilitar componente*/
+.disabled {
+    pointer-events: none; /* Desactiva clicks */
+    opacity: 0.5; /* Aplica efecto grisado */
+}

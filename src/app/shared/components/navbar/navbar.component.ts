@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'shared-navbar',
@@ -11,20 +12,22 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './navbar.component.css'
 })
 
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
+  public suscripciones: Subscription = new Subscription();
   public estaLogueado: boolean = false;
   public username: string = "";
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.authService.estaAutenticado().subscribe(autenticado => {
-      this.estaLogueado = autenticado;
-    });
-    this.authService.obtenerEmail().subscribe(email => {
-      this.username = email?.split("@")[0] ?? "";;
-    });
+    this.suscripciones.add(this.authService.obtenerEmailUsuarioObservable().subscribe(email => {
+      this.estaLogueado = email != "";
+      this.username = email != "" ? email.split("@")[0] : "";
+    }));
   };
+  ngOnDestroy(): void {
+    this.suscripciones.unsubscribe();
+  }
 
   cerrarSesion() {
     this.authService.cerrarSesion()

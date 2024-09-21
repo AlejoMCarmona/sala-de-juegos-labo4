@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-ventana-chat',
@@ -6,6 +7,14 @@ import { Component } from '@angular/core';
   styleUrl: './ventana-chat.component.css'
 })
 
-export class VentanaChatComponent {
+export class VentanaChatComponent implements OnInit {
+  public estaLogueado: boolean = false;
+
+  constructor(private auth: AuthService) {}
+
+  ngOnInit(): void {
+    this.estaLogueado = this.auth.estaAutenticado();
+  }
+
 
 }

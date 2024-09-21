@@ -12,12 +12,12 @@ export class ChatService {
 
   constructor(private firestore: Firestore, private auth: Auth) { }
 
-  public obtenerMensajes() {
+  public obtenerMensajesObservable() {
     const colRef = collection(this.firestore, 'mensajes'); 
     const consulta = query(colRef, orderBy('fecha', 'asc'));  
-    onSnapshot(consulta, (snapshot) => {
-      let mensajes = snapshot.docs.map(doc => doc.data());
-      this.mensajesSubject.next(mensajes); 
+    onSnapshot(consulta, snapshot => {
+      const mensajes = snapshot.docs.map(doc => doc.data());
+      this.mensajesSubject.next(mensajes);
     });
     return this.mensajesSubject.asObservable();
   }

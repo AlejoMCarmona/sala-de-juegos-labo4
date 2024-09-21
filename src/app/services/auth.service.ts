@@ -1,45 +1,45 @@
 import { Injectable } from '@angular/core';
 import { Auth, onAuthStateChanged, signOut } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
+  private usuarioAutenticado: BehaviorSubject<string> = new BehaviorSubject<string>("");
+  public estaLogueado: boolean = false;
+
   constructor(private auth: Auth) {}
 
   /**
-   * Retorna un observable que indica si el usuario está autenticado o no.
-   * @returns Observable<boolean> - true si el usuario está autenticado, false en caso contrario.
+   * Retorna un observable que contiene el email del usuario autenticado.
+   * @returns Observable<string> - Email del usuario si está logueado, o una cadena vacía si no lo está.
    */
-  public estaAutenticado(): Observable<boolean> {
-    return new Observable((observer) => {
-      onAuthStateChanged(this.auth, (user) => {
-        if (user) {
-          observer.next(true); // Emite true si el usuario está logueado
-        } else {
-          observer.next(false); // Emite false si no hay usuario
-        }
-      });
+  public obtenerEmailUsuarioObservable(): Observable<string> {
+      // Escucha los cambios en el estado de autenticación del usuario
+    onAuthStateChanged(this.auth, user => {
+      if (user && user.email) {
+        this.estaLogueado = true;
+        this.usuarioAutenticado.next(user.email);
+      } else {
+        this.estaLogueado = false;
+        this.usuarioAutenticado.next("");
+      }
     });
+    return this.usuarioAutenticado.asObservable();
   }
 
-  /**
-   * Retorna un observable que contiene el email del usuario autenticado.
-   * @returns Observable<string | null> - Email del usuario si está logueado, null si no lo está.
-   */
-  public obtenerEmail(): Observable<string | null> {
-    return new Observable((observer) => {
-      // Escucha los cambios en el estado de autenticación del usuario
-      onAuthStateChanged(this.auth, (user) => {
-        if (user && user.email) {
-          observer.next(user.email); // Emite el email del usuario si está logueado
-        } else {
-          observer.next(null); // Emite null si no hay usuario logueado
-        }
-      });
-    });
+  public estaAutenticado() {
+    return this.auth.currentUser != null;
+  }
+
+  public obtenerEmailUsuario() {
+    const email = this.auth.currentUser?.email;
+    if (email != "") {
+      return email;
+    }
+    return "";
   }
 
   /**

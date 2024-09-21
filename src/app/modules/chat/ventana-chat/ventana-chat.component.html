@@ -1,9 +1,13 @@
 <div class="container animate__animated animate__fadeInDown">
     <div class="mx-auto col-12 col-md-8 texto-color-primario texto-fuente-primaria">
         <h1 class="text-center mb-4 display-1">Chat</h1>
-        <div class="ventana border border-2 border-secondary rounded-3 shadow-lg d-flex flex-column justify-content-between">
+        <div *ngIf="estaLogueado; else mensajeLog" class="ventana border border-2 border-secondary rounded-3 shadow-lg d-flex flex-column justify-content-between">
             <lista-mensajes></lista-mensajes>
             <input-mensaje></input-mensaje>
-        </div>   
+        </div>
+        <ng-template #mensajeLog>
+            <p class="fs-5 text-center text-white">¿Qué haces aquí? Debes estar logueado para poder usar el chat.</p>
+            <div class="ventana"></div>
+        </ng-template>
     </div>
 </div>

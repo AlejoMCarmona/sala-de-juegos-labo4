@@ -1,6 +1,7 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { AuthService } from '../../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'lista-mensajes',
@@ -8,26 +9,27 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './lista-mensajes.component.css'
 })
 
-export class ListaMensajesComponent implements OnInit, AfterViewChecked {
+export class ListaMensajesComponent implements OnInit, OnDestroy, AfterViewChecked {
+  private suscripciones: Subscription = new Subscription();
   public mensajes: any[] = [];
   public usuario: string = "";
-   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+  @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
   constructor(private chatService: ChatService, private auth: AuthService){}
 
   ngOnInit(): void {
-    this.chatService.obtenerMensajes().subscribe(mensajes => {
+    this.suscripciones.add(this.chatService.obtenerMensajesObservable().subscribe(mensajes => {
       this.mensajes = mensajes;
-    });
-    this.auth.obtenerEmail().subscribe(email => {
-      this.usuario = email ?? "";
-    });
+    }));
+    this.usuario = this.auth.obtenerEmailUsuario() ?? "";
   }
 
-  // Cada vez que se cambia la vista (es decir, se agreguen nuevos mensajes) se scrollea la ventana hacia abajo
-  // para poder tener siempre los últimos mensajes a la vista.
   ngAfterViewChecked(): void {
     this.scrollearHaciaAbajo();
+  }
+
+  ngOnDestroy(): void {
+    this.suscripciones.unsubscribe();
   }
 
   public esUnMensajeDelUsuario(emailMensaje: string) {
