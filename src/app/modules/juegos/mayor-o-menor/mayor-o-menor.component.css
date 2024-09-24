@@ -1,0 +1,11 @@
+.imagen-carta, .imagen-carta-oculta {
+    width: 25%;
+}
+.imagen-carta-oculta {
+    background-color: black;
+}
+
+.pantalla-cartas {
+    background-color: gray;
+    min-height: 50vh;
+}
