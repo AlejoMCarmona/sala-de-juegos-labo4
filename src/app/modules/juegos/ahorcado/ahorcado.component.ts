@@ -14,7 +14,7 @@ export class AhorcadoComponent implements OnInit {
   public palabraOculta: string = '';
   public letras: string[] = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
   public intentosRestantes!: number;
-  public puntos!: number;
+  public puntuacion!: number;
   public estaLogueado: boolean = false;
 
   constructor(private auth: AuthService) {
@@ -31,7 +31,7 @@ export class AhorcadoComponent implements OnInit {
     this.palabraElegida = this.palabras[Math.floor(Math.random() * this.palabras.length)];
     this.palabraOculta = '_'.repeat(this.palabraElegida.length).split('').join(' ');
     this.intentosRestantes = 7;
-    this.puntos = 0;
+    this.puntuacion = 0;
   }
 
   public adivinarLetra(letra: string) {
@@ -48,14 +48,14 @@ export class AhorcadoComponent implements OnInit {
     this.palabraOculta = nuevaPalabraOculta.join(' ');
 
     if (coincidencia) {
-      this.puntos += 10; // +10 puntos por letra acertada
+      this.puntuacion += 10; // +10 puntos por letra acertada
       if (!this.palabraOculta.includes('_')) {
-        this.lanzarMensaje("¡Felicidades!", " Has adivinado la palabra: '" + this.palabraElegida + "'", false);
+        this.lanzarMensaje("¡Felicidades!", " Has adivinado la palabra: '" + this.palabraElegida + "'. Puntuación final: " + this.puntuacion + "." , false);
         this.iniciarJuego();
       }
     } else {
       this.intentosRestantes--;
-      this.puntos -= 5; // Penalización de -5 puntos por intento fallido
+      this.puntuacion -= 5; // Penalización de -5 puntos por intento fallido
       if (this.intentosRestantes == 0) {
         this.lanzarMensaje("GAME OVER", "La palabra era '" + this.palabraElegida + "'");
         this.iniciarJuego();

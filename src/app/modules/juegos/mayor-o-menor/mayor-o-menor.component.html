@@ -1,5 +1,5 @@
-<div class="container">
-    <p class="display-1 text-center text-white mb-5">Mayor o menor</p>
+<div class="container texto-color-primario texto-fuente-primaria">
+    <p class="text-center mb-4 display-1">Mayor o menor</p>
     <ng-template #mensajeLog>
         <p class="fs-5 text-center text-white">¿Qué haces aquí? Debes estar logueado para poder jugar.</p> <!--IMPLEMENTAR-->
     </ng-template>
@@ -7,15 +7,12 @@
         <div class="pantalla-cartas d-flex flex-column justify-content-center">
             <div class="cartas d-flex justify-content-center">
                 <img class="imagen-carta img-fluid m-4" src="{{cartaJugador?.image}}">
-                <div class="imagen-carta-oculta img-fluid m-4">
-                    <p class="text-center text-white display-3">?</p>
-                </div>
             </div>
 
             <p class="text-center text-white">¿La siguiente carta es mayor o menor?</p>
              <div class="d-flex flex-row">
-                <button class="btn btn-primary w-50" (click)="eleccion(false)">Menor</button>
-                <button class="btn btn-primary w-50" (click)="eleccion(true)">Mayor</button>
+                <button class="btn btn-light w-50" (click)="eleccion(false)">Menor</button>
+                <button class="btn btn-light w-50" (click)="eleccion(true)">Mayor</button>
              </div>
         </div>
     </div>

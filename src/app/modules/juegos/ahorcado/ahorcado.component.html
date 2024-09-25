@@ -1,11 +1,11 @@
-<div class="container">
-    <p class="display-1 text-center text-white">Ahorcado</p>
+<div class="container texto-color-primario texto-fuente-primaria">
+    <p class="text-center mb-4 display-1">Ahorcado</p>
     <ng-template #mensajeLog>
         <p class="fs-5 text-center text-white">¿Qué haces aquí? Debes estar logueado para poder jugar.</p>
     </ng-template>
     <div *ngIf="estaLogueado; else mensajeLog">
         <div class="pantalla d-flex flex-column justify-content-end">
-            <div class="display-4 text-center mb-4">{{ palabraOculta }}</div>
+            <div class="display-4 text-center mb-4 text-black">{{ palabraOculta }}</div>
         </div>
         <div class="teclado">
             <div class="row d-flex justify-content-center">
@@ -15,8 +15,7 @@
             </div>
         </div>
         <div class="informacion mt-4 text-center texto-color-primario">
-            <p>Intentos restantes: {{intentosRestantes}}</p>
-            <p>Puntuación: {{puntos}}</p>
+            <p class="display-6">Intentos restantes: {{intentosRestantes}}</p>
         </div>
     </div>
 

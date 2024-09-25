@@ -59,7 +59,8 @@ export class MayorOMenorComponent implements OnInit {
         return;
       }
     } else { // SI PIERDE EL JUEGO
-      this.lanzarMensaje('GAME OVER', 'No has adivinado el valor correcto. La carta era un ' + cartaSiguiente.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', true);
+      this.lanzarGameOver('GAME OVER', 'No has adivinado el valor correcto. La carta era un ' + cartaSiguiente.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', cartaSiguiente.image);
+      // this.lanzarMensaje('GAME OVER', 'No has adivinado el valor correcto. La carta era un ' + cartaSiguiente.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', true);
       this.iniciarJuego();
       // this.puntuacionService.guardarPuntuacion("mayor-o-menor", this.points);
       return;
@@ -97,5 +98,14 @@ export class MayorOMenorComponent implements OnInit {
         text: mensaje
       });
     }
+  }
+
+  private lanzarGameOver(titulo: string, mensaje: string, imagenCarta: string) {
+    Swal.fire({
+      icon: "error",
+      title: titulo,
+      text: mensaje,
+      imageUrl: imagenCarta
+    });
   }
 }
