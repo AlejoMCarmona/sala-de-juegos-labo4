@@ -42,17 +42,21 @@ export class MayorOMenorComponent implements OnInit {
   }
 
   public eleccion(esMayor: boolean) {
-    const cartaSiguiente = this.cartasJuego.shift()!;
+    const cartaSiguiente = this.cartasJuego.shift()!; 
+    this.cartasJuego.push(this.cartaJugador!);
+    const valorCartaSiguiente = Number(cartaSiguiente.value);
+    const valorCartaActual = Number(this.cartaJugador!.value);
 
-    if(  (cartaSiguiente!.value > this.cartaJugador!.value && esMayor) 
-      || (cartaSiguiente!.value < this.cartaJugador!.value && !esMayor)
-      || (cartaSiguiente!.value === this.cartaJugador!.value)) {
+    if(  (valorCartaSiguiente > valorCartaActual && esMayor) 
+      || (valorCartaSiguiente < valorCartaActual && !esMayor)
+      || (valorCartaSiguiente === valorCartaActual)) {
       this.puntuacion += 5;
 
       if(this.cartasTotales != 0){
         this.cartasTotales--;
       } else if (this.cartasTotales == 0) { // SI GANA EL JUEGO
         this.lanzarMensaje('FELICITACIONES', '¡Haz adivinado todas las cartas! Puntuación final: ' + this.puntuacion + " puntos.", false);
+        this.cartasJuego.push(cartaSiguiente!); // TODO: corregir lógica
         // TODO: subir puntuacion     
         // this.puntuacionService.guardarPuntuacion("mayor-o-menor", this.points);
         this.iniciarJuego();
@@ -60,16 +64,14 @@ export class MayorOMenorComponent implements OnInit {
       }
     } else { // SI PIERDE EL JUEGO
       this.lanzarGameOver('GAME OVER', 'No has adivinado el valor correcto. La carta era un ' + cartaSiguiente.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', cartaSiguiente.image);
-      // this.lanzarMensaje('GAME OVER', 'No has adivinado el valor correcto. La carta era un ' + cartaSiguiente.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', true);
+      this.cartasJuego.push(cartaSiguiente!); // TODO: corregir lógica
       this.iniciarJuego();
+      // TODO: subir puntuacion     
       // this.puntuacionService.guardarPuntuacion("mayor-o-menor", this.points);
       return;
     }
     
-    // this.mostrarCartaOculta(cartaSiguiente);
-    this.cartasJuego.push(this.cartaJugador!);
     this.cartaJugador = cartaSiguiente;
-    console.log("El mazo actual contiene " + this.cartasJuego.length + " cartas");
   }
 
   private mezclarCartas(cartas: Card[]): Card[] {
