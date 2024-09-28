@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import Swal from 'sweetalert2'
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { addDoc, collection, Firestore } from '@angular/fire/firestore';
+import { MensajesService } from '../../services/mensajes.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent {
   public password!: string;
   public inicioExitoso!: boolean;
 
-  constructor(private router: Router, private auth: Auth, private firestore: Firestore) {}
+  constructor(private router: Router, private auth: Auth, private firestore: Firestore, private _mensajeService: MensajesService) {}
 
   public autocompletar() {
     this.email = 'admin@test.com';
@@ -33,17 +33,9 @@ export class LoginComponent {
         addDoc(col, { fecha: new Date(), "user": user.user.email });
         this.router.navigate(['home']);
       })
-      .catch(() => this.lanzarError('Inicio de sesión fallido', 'Las credenciales ingresadas son inválidas'));
+      .catch(() => this._mensajeService.lanzarMensajeError('ERROR', 'Debes completar todos los campos para iniciar sesión'));
     } else {
-      this.lanzarError('ERROR', 'Debes completar todos los campos para iniciar sesión');
+      this._mensajeService.lanzarMensajeError('ERROR', 'Debes completar todos los campos para iniciar sesión');
     }
-  }
-
-  private lanzarError(titulo: string, mensaje: string) {
-    Swal.fire({
-      icon: "error",
-      title: titulo,
-      text: mensaje
-    });
   }
 }

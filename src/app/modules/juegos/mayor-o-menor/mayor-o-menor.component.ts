@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MayorOMenorService } from './services/mayor-o-menor.service';
 import { Card } from './interfaces/cards.interface';
-import Swal from 'sweetalert2';
+import { MensajesService } from '../../../services/mensajes.service';
 
 @Component({
   selector: 'app-mayor-o-menor',
@@ -17,7 +17,7 @@ export class MayorOMenorComponent implements OnInit {
   public botonesDeshabilitados = false;
   private puntuacion: number = 0;
   
-  constructor(private _mayorOMenorService : MayorOMenorService) {}
+  constructor(private _mayorOMenorService : MayorOMenorService, private _mensajeService: MensajesService) {}
 
   ngOnInit() {
     // Puede ser reemplazado por una llamada a la API real
@@ -55,7 +55,7 @@ export class MayorOMenorComponent implements OnInit {
       if(this.cartasTotales != 0){
         this.cartasTotales--;
       } else if (this.cartasTotales == 0) { // SI GANA EL JUEGO
-        this.lanzarMensaje('FELICITACIONES', '¡Haz adivinado todas las cartas! Puntuación final: ' + this.puntuacion + " puntos.", false);
+        this._mensajeService.lanzarMensajeExitoso('FELICITACIONES', '¡Haz adivinado todas las cartas! Puntuación final: ' + this.puntuacion + " puntos.");
         this.cartasJuego.push(cartaSiguiente!); // TODO: corregir lógica
         // TODO: subir puntuacion     
         // this.puntuacionService.guardarPuntuacion("mayor-o-menor", this.points);
@@ -63,7 +63,7 @@ export class MayorOMenorComponent implements OnInit {
         return;
       }
     } else { // SI PIERDE EL JUEGO
-      this.lanzarGameOver('GAME OVER', 'No has adivinado el valor correcto. La carta era un ' + cartaSiguiente.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', cartaSiguiente.image);
+      this._mensajeService.lanzarMensajeError('GAME OVER', 'No has adivinado el valor correcto. La carta era un ' + cartaSiguiente.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', cartaSiguiente.image);
       this.cartasJuego.push(cartaSiguiente!); // TODO: corregir lógica
       this.iniciarJuego();
       // TODO: subir puntuacion     
@@ -84,30 +84,5 @@ export class MayorOMenorComponent implements OnInit {
     }
   
     return mazoMezclado; 
-  }
-  
-  private lanzarMensaje(titulo: string, mensaje: string, error: boolean = true) {
-    if (error) {
-      Swal.fire({
-        icon: "error",
-        title: titulo,
-        text: mensaje
-      });
-    } else {
-      Swal.fire({
-        icon: "success",
-        title: titulo,
-        text: mensaje
-      });
-    }
-  }
-
-  private lanzarGameOver(titulo: string, mensaje: string, imagenCarta: string) {
-    Swal.fire({
-      icon: "error",
-      title: titulo,
-      text: mensaje,
-      imageUrl: imagenCarta
-    });
   }
 }

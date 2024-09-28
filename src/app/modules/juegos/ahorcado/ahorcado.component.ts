@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import Swal from 'sweetalert2';
 import { AuthService } from '../../../services/auth.service';
+import { MensajesService } from '../../../services/mensajes.service';
 
 @Component({
   selector: 'app-ahorcado',
@@ -17,7 +17,7 @@ export class AhorcadoComponent implements OnInit {
   public puntuacion!: number;
   public estaLogueado: boolean = false;
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private _mensajeService: MensajesService) {
     this.iniciarJuego();
   }
 
@@ -50,32 +50,16 @@ export class AhorcadoComponent implements OnInit {
     if (coincidencia) {
       this.puntuacion += 10; // +10 puntos por letra acertada
       if (!this.palabraOculta.includes('_')) {
-        this.lanzarMensaje("¡Felicidades!", " Has adivinado la palabra: '" + this.palabraElegida + "'. Puntuación final: " + this.puntuacion + "." , false);
+        this._mensajeService.lanzarMensajeExitoso("¡Felicidades!", " Has adivinado la palabra: '" + this.palabraElegida + "'. Puntuación final: " + this.puntuacion + "." );
         this.iniciarJuego();
       }
     } else {
       this.intentosRestantes--;
       this.puntuacion -= 5; // Penalización de -5 puntos por intento fallido
       if (this.intentosRestantes == 0) {
-        this.lanzarMensaje("GAME OVER", "La palabra era '" + this.palabraElegida + "'");
+        this._mensajeService.lanzarMensajeError("GAME OVER", "La palabra era '" + this.palabraElegida + "'");
         this.iniciarJuego();
       }
-    }
-  }
-
-  private lanzarMensaje(titulo: string, mensaje: string, error: boolean = true) {
-    if (error) {
-      Swal.fire({
-        icon: "error",
-        title: titulo,
-        text: mensaje
-      });
-    } else {
-      Swal.fire({
-        icon: "success",
-        title: titulo,
-        text: mensaje
-      });
     }
   }
 }

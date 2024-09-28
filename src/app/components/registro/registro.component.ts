@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
+import { MensajesService } from '../../services/mensajes.service';
 
 @Component({
   selector: 'app-registro',
@@ -15,7 +15,7 @@ export class RegistroComponent {
   public email: string = '';
   public password: string = '';
 
-  constructor(private router: Router, private auth: Auth) {}
+  constructor(private router: Router, private auth: Auth, private _mensajeService: MensajesService) {}
 
   public registrarUsuario() {
     if (this.validarCampos()) {
@@ -31,31 +31,23 @@ export class RegistroComponent {
             mensaje = "Hubo un error ineperado a la hora de crear el usuario. Por favor, inténtelo más tarde";
           break;
         }
-        this.lanzarError("ERROR", mensaje);
+        this._mensajeService.lanzarMensajeError("ERROR", mensaje);
       });
     }
   }
 
   private validarCampos(): boolean {
     if (!this.email || !this.password) {
-      this.lanzarError('Campos incompletos', 'Por favor, completa todos los campos.');
+      this._mensajeService.lanzarMensajeError('Campos incompletos', 'Por favor, completa todos los campos.');
       return false;
     }
 
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(this.email)) {
-      this.lanzarError('Email inválido', 'Por favor, ingresa un correo electrónico válido.');
+      this._mensajeService.lanzarMensajeError('Email inválido', 'Por favor, ingresa un correo electrónico válido.');
       return false;
     }
 
     return true;
-  }
-
-  private lanzarError(titulo: string, mensaje: string) {
-    Swal.fire({
-      icon: "error",
-      title: titulo,
-      text: mensaje
-    });
   }
 }
