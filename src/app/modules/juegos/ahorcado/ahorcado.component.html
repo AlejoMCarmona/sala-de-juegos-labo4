@@ -4,19 +4,21 @@
         <p class="fs-5 text-center text-white">¿Qué haces aquí? Debes estar logueado para poder jugar.</p>
     </ng-template>
     <div *ngIf="estaLogueado; else mensajeLog">
-        <div class="pantalla d-flex flex-column justify-content-end">
+        <div class="pantalla d-flex flex-column">
+            <div class="container d-flex justify-content-center">
+                <img class="img-fluid mx-auto" [src]="this.urlImagenActual">
+            </div>
             <div class="display-4 text-center mb-4 text-black">{{ palabraOculta }}</div>
         </div>
         <div class="teclado">
             <div class="row d-flex justify-content-center">
                 <ng-container *ngFor="let letra of letras">
-                    <button class="tecla col-1" (click)="adivinarLetra(letra)">{{ letra }}</button>
+                    <button class="tecla text-center col-1" [disabled]="letrasDeshabilitadas.has(letra)" (click)="adivinarLetra(letra)">{{ letra }}</button>
                 </ng-container>
             </div>
         </div>
         <div class="informacion mt-4 text-center texto-color-primario">
-            <p class="display-6">Intentos restantes: {{intentosRestantes}}</p>
+            <p class="fs-4">Intentos restantes: {{intentosRestantes}}</p>
         </div>
     </div>
-
 </div>
