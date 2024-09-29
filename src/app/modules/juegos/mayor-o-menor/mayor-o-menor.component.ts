@@ -11,13 +11,15 @@ import { MensajesService } from '../../../services/mensajes.service';
 
 export class MayorOMenorComponent implements OnInit {
   public cartasJuego: Card[] = [];
+  public urlMazo: string = 'assets/carta.jpg';
   public cartasTotales = 30;
   public cartaJugador?: Card;
-  public estaLogueado = true; // IMPLEMENTAR
+  public siguienteCarta?: Card;
+  public estaLogueado = true;
   public botonesDeshabilitados = false;
   private puntuacion: number = 0;
   
-  constructor(private _mayorOMenorService : MayorOMenorService, private _mensajeService: MensajesService) {}
+  constructor(private _mayorOMenorService: MayorOMenorService, private _mensajeService: MensajesService) {}
 
   ngOnInit() {
     // Puede ser reemplazado por una llamada a la API real
@@ -28,61 +30,68 @@ export class MayorOMenorComponent implements OnInit {
           this.cartasJuego.push(c);
         }
       });
-
       this.iniciarJuego();
     });
   }
 
-  public iniciarJuego() {
-    this.cartasJuego = this.mezclarCartas(this.cartasJuego); // Mezclo las cartas
+  private iniciarJuego() {
+    this.cartasJuego = this.mezclarCartas(this.cartasJuego); // Mezclar las cartas
+    this.botonesDeshabilitados = false;
     this.cartasTotales = 30;
-    this.cartasTotales--;
     this.puntuacion = 0;
+    // Asignar la carta actual y la siguiente carta
     this.cartaJugador = this.cartasJuego.pop();
+    this.siguienteCarta = this.cartasJuego.shift();
   }
 
-  public eleccion(esMayor: boolean) {
-    const cartaSiguiente = this.cartasJuego.shift()!; 
-    this.cartasJuego.push(this.cartaJugador!);
-    const valorCartaSiguiente = Number(cartaSiguiente.value);
+  public elegirCarta(esMayor: boolean) {
+    if (!this.siguienteCarta) return;
+
+    const valorCartaSiguiente = Number(this.siguienteCarta.value);
     const valorCartaActual = Number(this.cartaJugador!.value);
 
-    if(  (valorCartaSiguiente > valorCartaActual && esMayor) 
-      || (valorCartaSiguiente < valorCartaActual && !esMayor)
-      || (valorCartaSiguiente === valorCartaActual)) {
-      this.puntuacion += 5;
-
-      if(this.cartasTotales != 0){
-        this.cartasTotales--;
-      } else if (this.cartasTotales == 0) { // SI GANA EL JUEGO
-        this._mensajeService.lanzarMensajeExitoso('FELICITACIONES', '¡Haz adivinado todas las cartas! Puntuación final: ' + this.puntuacion + " puntos.");
-        this.cartasJuego.push(cartaSiguiente!); // TODO: corregir lógica
-        // TODO: subir puntuacion     
-        // this.puntuacionService.guardarPuntuacion("mayor-o-menor", this.points);
+    // Mostrar la siguiente carta y deshabilitar los botones por algunos segundos
+    this.botonesDeshabilitados = true;
+    const eleccionCorrecta = this.evaluarEleccion(valorCartaActual, valorCartaSiguiente, esMayor);
+    if(eleccionCorrecta) this._mensajeService.lanzarNotificacionExito("¡Buena elección!", 700);
+    setTimeout(() => {
+      if (eleccionCorrecta) {
+        this.puntuacion += 5;
+        if (this.cartasTotales > 1) {
+          this.cartasTotales--;
+        } else {
+          // Si adivina todas las cartas
+          this._mensajeService.lanzarMensajeExitoso('FELICITACIONES', '¡Haz adivinado todas las cartas! Puntuación final: ' + this.puntuacion + ' puntos.');
+          this.iniciarJuego();
+          return;
+        }
+      } else {
+        // Si falla
+        this._mensajeService.lanzarMensajeError('GAME OVER','No has adivinado el valor correcto. La carta era un ' + this.siguienteCarta!.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', this.siguienteCarta!.image);
         this.iniciarJuego();
         return;
       }
-    } else { // SI PIERDE EL JUEGO
-      this._mensajeService.lanzarMensajeError('GAME OVER', 'No has adivinado el valor correcto. La carta era un ' + cartaSiguiente.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', cartaSiguiente.image);
-      this.cartasJuego.push(cartaSiguiente!); // TODO: corregir lógica
-      this.iniciarJuego();
-      // TODO: subir puntuacion     
-      // this.puntuacionService.guardarPuntuacion("mayor-o-menor", this.points);
-      return;
-    }
-    
-    this.cartaJugador = cartaSiguiente;
+
+      // Actualizar la carta del jugador y definir la nueva carta siguiente
+      this.cartaJugador = this.siguienteCarta;
+      this.siguienteCarta = this.cartasJuego.shift(); // Obtener la nueva carta siguiente
+      this.botonesDeshabilitados = false;
+    }, 700);
   }
 
+  private evaluarEleccion(primerValor: number, segundoValor: number, esMayor: boolean) {
+    return (segundoValor > primerValor && esMayor) || (segundoValor < primerValor && !esMayor) || segundoValor === primerValor;
+  }
+
+  // Algoritmo de Fisher-Yates para mezclar cartas
   private mezclarCartas(cartas: Card[]): Card[] {
     const mazoMezclado = [...cartas];
-  
-    // Algoritmo de Fisher-Yates
+
     for (let i = mazoMezclado.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [mazoMezclado[i], mazoMezclado[j]] = [mazoMezclado[j], mazoMezclado[i]];
     }
-  
-    return mazoMezclado; 
+
+    return mazoMezclado;
   }
 }
