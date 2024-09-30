@@ -37,6 +37,10 @@ export class MensajesService {
     this.lanzarNotificacion(titulo, AlertPosition.TopEnd, AlertIcon.Success, tiempo, img);
   }
 
+  public lanzarNotificacionError(titulo: string, tiempo: number = 3000, img: string = "") {
+    this.lanzarNotificacion(titulo, AlertPosition.TopEnd, AlertIcon.Error, tiempo, img);
+  }
+
   private lanzarNotificacion(titulo: string, posicion: AlertPosition, icono: AlertIcon, tiempo: number = 3000, img: string = "") {
     const options: SweetAlertOptions = {
       toast: true,
