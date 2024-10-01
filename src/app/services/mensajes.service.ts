@@ -33,15 +33,23 @@ export class MensajesService {
     Swal.fire(options);
   }
 
+  public lanzarNotificacionExitoCentro(titulo: string, tiempo: number = 3000, img: string = "") {
+    this.lanzarNotificacion(titulo, AlertPosition.Center, AlertIcon.Success, tiempo, img);
+  }
+
   public lanzarNotificacionExito(titulo: string, tiempo: number = 3000, img: string = "") {
     this.lanzarNotificacion(titulo, AlertPosition.TopEnd, AlertIcon.Success, tiempo, img);
+  }
+
+  public lanzarNotificacionErrorCentro(titulo: string, tiempo: number = 3000, img: string = "") {
+    this.lanzarNotificacion(titulo, AlertPosition.Center, AlertIcon.Error, tiempo, img);
   }
 
   public lanzarNotificacionError(titulo: string, tiempo: number = 3000, img: string = "") {
     this.lanzarNotificacion(titulo, AlertPosition.TopEnd, AlertIcon.Error, tiempo, img);
   }
 
-  private lanzarNotificacion(titulo: string, posicion: AlertPosition, icono: AlertIcon, tiempo: number = 3000, img: string = "") {
+  private lanzarNotificacion(titulo: string, posicion: AlertPosition, icono: AlertIcon, tiempo: number = 3000,  img: string = "") {
     const options: SweetAlertOptions = {
       toast: true,
       position: posicion,

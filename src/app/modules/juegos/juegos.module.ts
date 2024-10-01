@@ -6,13 +6,15 @@ import { RouterLink } from '@angular/router';
 import { AhorcadoComponent } from './ahorcado/ahorcado.component';
 import { MayorOMenorComponent } from './mayor-o-menor/mayor-o-menor.component';
 import { PreguntadosComponent } from './preguntados/preguntados.component';
+import { QueNumeroEsComponent } from './que-numero-es/que-numero-es.component';
 
 @NgModule({
   declarations: [
     ListadoJuegosComponent,
     AhorcadoComponent,
     MayorOMenorComponent,
-    PreguntadosComponent
+    PreguntadosComponent,
+    QueNumeroEsComponent
   ],
   imports: [
     CommonModule,

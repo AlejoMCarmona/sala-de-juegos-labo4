@@ -1,0 +1,22 @@
+.pantalla {
+    background-color: white;
+    width: 50vw;
+    padding: 10px;
+}
+@media (max-width: 1200px) {
+    .pantalla {
+        width: 75vw;
+    }
+}
+
+.btn {
+    color: var(--color-fondo);
+}
+
+.boton-pista-descubierta {
+    pointer-events: none;
+}
+
+.pistas {
+    background-color: var(--color-fondo);
+}
