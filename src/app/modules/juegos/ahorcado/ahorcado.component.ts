@@ -21,22 +21,20 @@ export class AhorcadoComponent implements OnInit {
   public urlImagenActual: string = "";
 
   constructor(private auth: AuthService, private _mensajeService: MensajesService) {
-    this.iniciarJuego();
   }
 
   ngOnInit(): void {
     this.auth.estaAutenticado().then(resultado => {
       this.estaLogueado = resultado;
+      if(!this.estaLogueado) return;
+
+      this.iniciarJuego();
     });
   }
 
   public iniciarJuego() {
-    this.palabraElegida = this.palabras[Math.floor(Math.random() * this.palabras.length)];
-    this.palabraOculta = '_'.repeat(this.palabraElegida.length).split('').join(' ');
-    this.intentosRestantes = 7;
-    this.urlImagenActual = this.rutaUrlImagenes + "ahorcado-" + this.intentosRestantes + ".png";
+    this.reiniciarJuego();
     this.puntuacion = 0;
-    this.letrasDeshabilitadas.clear();
   }
 
   public adivinarLetra(letra: string) {
@@ -51,25 +49,31 @@ export class AhorcadoComponent implements OnInit {
     }
 
     this.palabraOculta = nuevaPalabraOculta.join(' ');
-    console.log("Deshabilitando...");
     this.deshabilitarLetra(letra);
-    console.log("Resultado has: " + this.letrasDeshabilitadas.has(letra));
 
     if (coincidencia) {
-      this.puntuacion += 10; // +10 puntos por letra acertada
+      this.puntuacion += 20;
       if (!this.palabraOculta.includes('_')) {
-        this._mensajeService.lanzarMensajeExitoso("¡Felicidades!", " Has adivinado la palabra: '" + this.palabraElegida + "'. Puntuación final: " + this.puntuacion + "." );
-        this.iniciarJuego();
+        this._mensajeService.lanzarNotificacionExitoCentro(`¡Felicidades! Has adivinado la palabra ${this.palabraElegida}`, 1500)
+        this.reiniciarJuego();
       }
     } else {
       this.intentosRestantes--;
-      this.puntuacion -= 5; // Penalización de -5 puntos por intento fallido
+      if (this.puntuacion >= 5) this.puntuacion -= 5;
       this.urlImagenActual = this.rutaUrlImagenes + "ahorcado-" + this.intentosRestantes + ".png";
       if (this.intentosRestantes == 0) {
-        this._mensajeService.lanzarMensajeError("GAME OVER", "La palabra era '" + this.palabraElegida + "'");
+        this._mensajeService.lanzarMensajeError("GAME OVER", "La palabra era '" + this.palabraElegida + "'. Tu puntuación final fue de " + this.puntuacion + " puntos.");
         this.iniciarJuego();
       }
     }
+  }
+
+  public reiniciarJuego() {
+    this.palabraElegida = this.palabras[Math.floor(Math.random() * this.palabras.length)];
+    this.palabraOculta = '_'.repeat(this.palabraElegida.length).split('').join(' ');
+    this.intentosRestantes = 7;
+    this.urlImagenActual = this.rutaUrlImagenes + "ahorcado-" + this.intentosRestantes + ".png";
+    this.letrasDeshabilitadas.clear();
   }
 
   public deshabilitarLetra(letra: string) {

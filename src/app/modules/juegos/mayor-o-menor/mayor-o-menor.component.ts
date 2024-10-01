@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MayorOMenorService } from './services/mayor-o-menor.service';
 import { Card } from './interfaces/cards.interface';
 import { MensajesService } from '../../../services/mensajes.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-mayor-o-menor',
@@ -17,21 +18,26 @@ export class MayorOMenorComponent implements OnInit {
   public siguienteCarta?: Card;
   public estaLogueado = true;
   public botonesDeshabilitados = false;
-  private puntuacion: number = 0;
+  public puntuacion: number = 0;
   
-  constructor(private _mayorOMenorService: MayorOMenorService, private _mensajeService: MensajesService) {}
+  constructor(private _mayorOMenorService: MayorOMenorService, private _mensajeService: MensajesService, private _authService: AuthService) {}
 
   ngOnInit() {
-    // Puede ser reemplazado por una llamada a la API real
-    this._mayorOMenorService.obtenerMazoDeCartasSimulado(this.cartasTotales).then(response => {
-      response.cards.forEach(c => {
-        const valorCarta = Number(c.value);
-        if (!isNaN(valorCarta)) {
-          this.cartasJuego.push(c);
-        }
+    this._authService.estaAutenticado().then(resultado => {
+      this.estaLogueado = resultado;
+      if (!this.estaLogueado) return;
+      // Puede ser reemplazado por una llamada a la API real
+      this._mayorOMenorService.obtenerMazoDeCartasSimulado(this.cartasTotales).then(response => {
+        response.cards.forEach(c => {
+          const valorCarta = Number(c.value);
+          if (!isNaN(valorCarta)) {
+            this.cartasJuego.push(c);
+          }
+        });
+        this.iniciarJuego();
       });
-      this.iniciarJuego();
     });
+
   }
 
   private iniciarJuego() {
@@ -53,7 +59,7 @@ export class MayorOMenorComponent implements OnInit {
     // Mostrar la siguiente carta y deshabilitar los botones por algunos segundos
     this.botonesDeshabilitados = true;
     const eleccionCorrecta = this.evaluarEleccion(valorCartaActual, valorCartaSiguiente, esMayor);
-    if(eleccionCorrecta) this._mensajeService.lanzarNotificacionExito("¡Buena elección!", 700);
+    if(eleccionCorrecta) this._mensajeService.lanzarNotificacionExito("¡Buena elección!", 1000);
     setTimeout(() => {
       if (eleccionCorrecta) {
         this.puntuacion += 5;
@@ -76,7 +82,7 @@ export class MayorOMenorComponent implements OnInit {
       this.cartaJugador = this.siguienteCarta;
       this.siguienteCarta = this.cartasJuego.shift(); // Obtener la nueva carta siguiente
       this.botonesDeshabilitados = false;
-    }, 700);
+    }, 1000);
   }
 
   private evaluarEleccion(primerValor: number, segundoValor: number, esMayor: boolean) {

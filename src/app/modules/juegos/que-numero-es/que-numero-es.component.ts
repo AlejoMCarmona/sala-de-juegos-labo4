@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MensajesService } from '../../../services/mensajes.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'que-numero-es',
@@ -55,10 +56,15 @@ export class QueNumeroEsComponent implements OnInit {
     },
   ];
 
-  constructor(private _mensajeService: MensajesService) {}
+  constructor(private _mensajeService: MensajesService, private _authService: AuthService) {}
 
   ngOnInit(): void {
-    this.iniciarJuego();
+    this._authService.estaAutenticado().then(resultado => {
+      this.estaLogueado = resultado;
+      if(!this.estaLogueado) return;
+
+      this.iniciarJuego();
+    });
   }
 
   private iniciarJuego() {

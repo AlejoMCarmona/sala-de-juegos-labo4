@@ -4,6 +4,7 @@ import { Cca3Code } from './interfaces/cca3.interface';
 import { Flags } from './interfaces/country.interface';
 import { Options } from './interfaces/options.interface';
 import { MensajesService } from '../../../services/mensajes.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-preguntados',
@@ -19,12 +20,17 @@ export class PreguntadosComponent implements OnInit {
   public puntuacion: number = 0;
   public ayudaUtilizada: boolean = false;
 
-  constructor(private _preguntadosService: PreguntadosService, private _mensajesService: MensajesService) {}
+  constructor(private _preguntadosService: PreguntadosService, private _mensajesService: MensajesService, private _authService: AuthService) {}
 
   ngOnInit(): void {
-    this._preguntadosService.obtenerCodigosDePaises().then(codigos => {
-      this.codigosDePaises = codigos;
-      this.iniciarJuego();
+    this._authService.estaAutenticado().then(resultado => {
+      this.estaLogueado = resultado;
+      if(!this.estaLogueado) return;
+
+      this._preguntadosService.obtenerCodigosDePaises().then(codigos => {
+        this.codigosDePaises = codigos;
+        this.iniciarJuego();
+      });
     });
   }
 
@@ -34,7 +40,7 @@ export class PreguntadosComponent implements OnInit {
     this.ayudaUtilizada = false;
   }
 
-  public cambiarBandera() {
+  public async cambiarBandera() {
     this.opciones = this.elegirOpcionesAleatorias();
     const codigoPaisCorrecto = this.opciones.find(opc => opc.correctAnswer)?.cca3;
     this._preguntadosService.obtenerBanderaPais(codigoPaisCorrecto ?? "").then(bandera => {
