@@ -3,6 +3,7 @@ import { MayorOMenorService } from './services/mayor-o-menor.service';
 import { Card } from './interfaces/cards.interface';
 import { MensajesService } from '../../../services/mensajes.service';
 import { AuthService } from '../../../services/auth.service';
+import { PuntuacionService } from '../../../services/puntuacion.service';
 
 @Component({
   selector: 'app-mayor-o-menor',
@@ -20,7 +21,7 @@ export class MayorOMenorComponent implements OnInit {
   public botonesDeshabilitados = false;
   public puntuacion: number = 0;
   
-  constructor(private _mayorOMenorService: MayorOMenorService, private _mensajeService: MensajesService, private _authService: AuthService) {}
+  constructor(private _mayorOMenorService: MayorOMenorService, private _mensajeService: MensajesService, private _authService: AuthService, private _puntuacionService: PuntuacionService) {}
 
   ngOnInit() {
     this._authService.estaAutenticado().then(resultado => {
@@ -68,12 +69,14 @@ export class MayorOMenorComponent implements OnInit {
         } else {
           // Si adivina todas las cartas
           this._mensajeService.lanzarMensajeExitoso('FELICITACIONES', '¡Haz adivinado todas las cartas! Puntuación final: ' + this.puntuacion + ' puntos.');
+          this._puntuacionService.subirPuntuacion(this.puntuacion, "mayor-o-menor");
           this.iniciarJuego();
           return;
         }
       } else {
         // Si falla
         this._mensajeService.lanzarMensajeError('GAME OVER','No has adivinado el valor correcto. La carta era un ' + this.siguienteCarta!.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', this.siguienteCarta!.image);
+        this._puntuacionService.subirPuntuacion(this.puntuacion, "mayor-o-menor");
         this.iniciarJuego();
         return;
       }

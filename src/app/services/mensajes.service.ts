@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import Swal, { SweetAlertOptions } from 'sweetalert2';
+import Swal, { SweetAlertOptions, SweetAlertResult } from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +64,27 @@ export class MensajesService {
     if(img != "") options.imageUrl = img;
 
     Swal.fire(options);
+  }
+
+  public lanzarPreguntaCentro(titulo: string, subtitulo: string, textoConfirmar: string, textoCancelar: string) {
+    return this.lanzarConOpciones(titulo, subtitulo, AlertPosition.Center, AlertIcon.Question, textoConfirmar, textoCancelar);
+  }
+
+  private lanzarConOpciones(titulo: string, subtitulo: string, posicion: AlertPosition, icono: AlertIcon, textoConfirmar: string, textoCancelar: string) : Promise<SweetAlertResult> {
+    const opciones: SweetAlertOptions = {
+      title: titulo,
+      text: subtitulo,
+      icon: icono,
+      position: posicion,
+      showCancelButton: true,
+      confirmButtonText: "No",
+      cancelButtonText: "Sí",
+    };
+    
+    if (textoCancelar != "") opciones.cancelButtonText = textoCancelar; 
+    if (textoCancelar != "") opciones.confirmButtonText = textoConfirmar; 
+
+    return Swal.fire(opciones);
   }
 }
 

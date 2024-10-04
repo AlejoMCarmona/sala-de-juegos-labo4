@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MensajesService } from '../../../services/mensajes.service';
 import { AuthService } from '../../../services/auth.service';
+import { PuntuacionService } from '../../../services/puntuacion.service';
 
 @Component({
   selector: 'que-numero-es',
@@ -56,7 +57,7 @@ export class QueNumeroEsComponent implements OnInit {
     },
   ];
 
-  constructor(private _mensajeService: MensajesService, private _authService: AuthService) {}
+  constructor(private _mensajeService: MensajesService, private _authService: AuthService, private _puntuacionService: PuntuacionService) {}
 
   ngOnInit(): void {
     this._authService.estaAutenticado().then(resultado => {
@@ -193,6 +194,7 @@ export class QueNumeroEsComponent implements OnInit {
       this.vidas -= 1;
       if (this.vidas == 0) {
         this._mensajeService.lanzarMensajeError("GAME OVER", `Te quedaste sin vidas. Tu puntuación final fue de ${this.puntuacion} puntos. El número era el ${this.numero}`);
+        this._puntuacionService.subirPuntuacion(this.puntuacion, "que-numero-es");
         this.iniciarJuego();
         return;
       } 

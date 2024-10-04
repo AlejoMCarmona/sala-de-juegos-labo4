@@ -5,6 +5,7 @@ import { Flags } from './interfaces/country.interface';
 import { Options } from './interfaces/options.interface';
 import { MensajesService } from '../../../services/mensajes.service';
 import { AuthService } from '../../../services/auth.service';
+import { PuntuacionService } from '../../../services/puntuacion.service';
 
 @Component({
   selector: 'app-preguntados',
@@ -20,7 +21,7 @@ export class PreguntadosComponent implements OnInit {
   public puntuacion: number = 0;
   public ayudaUtilizada: boolean = false;
 
-  constructor(private _preguntadosService: PreguntadosService, private _mensajesService: MensajesService, private _authService: AuthService) {}
+  constructor(private _preguntadosService: PreguntadosService, private _mensajesService: MensajesService, private _authService: AuthService, private _puntuacionService: PuntuacionService) {}
 
   ngOnInit(): void {
     this._authService.estaAutenticado().then(resultado => {
@@ -71,6 +72,7 @@ export class PreguntadosComponent implements OnInit {
     } else {
       const opcionCorrecta = this.opciones.find(opc => opc.correctAnswer);
       this._mensajesService.lanzarMensajeError("¡HAZ PERDIDO!", "La bandera era de " + opcionCorrecta?.name + ". Tu puntuación final fue de " + this.puntuacion + " puntos.");
+      this._puntuacionService.subirPuntuacion(this.puntuacion, "preguntados");
       this.iniciarJuego();
     }
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { MensajesService } from '../../../services/mensajes.service';
+import { PuntuacionService } from '../../../services/puntuacion.service';
 
 @Component({
   selector: 'app-ahorcado',
@@ -20,7 +21,7 @@ export class AhorcadoComponent implements OnInit {
   private rutaUrlImagenes: string = "assets/ahorcado/";
   public urlImagenActual: string = "";
 
-  constructor(private auth: AuthService, private _mensajeService: MensajesService) {
+  constructor(private auth: AuthService, private _mensajeService: MensajesService, private _puntuacionService: PuntuacionService) {
   }
 
   ngOnInit(): void {
@@ -63,6 +64,7 @@ export class AhorcadoComponent implements OnInit {
       this.urlImagenActual = this.rutaUrlImagenes + "ahorcado-" + this.intentosRestantes + ".png";
       if (this.intentosRestantes == 0) {
         this._mensajeService.lanzarMensajeError("GAME OVER", "La palabra era '" + this.palabraElegida + "'. Tu puntuación final fue de " + this.puntuacion + " puntos.");
+        this._puntuacionService.subirPuntuacion(this.puntuacion, "ahorcado");
         this.iniciarJuego();
       }
     }
