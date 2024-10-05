@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MensajesService } from '../../../services/mensajes.service';
 import { AuthService } from '../../../services/auth.service';
-import { PuntuacionService } from '../../../services/puntuacion.service';
+import { PuntuacionService } from '../../puntuaciones/puntuacion.service';
 
 @Component({
   selector: 'que-numero-es',

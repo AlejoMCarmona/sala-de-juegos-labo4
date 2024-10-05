@@ -1,0 +1,23 @@
+<div class="container texto-fuente-primaria texto-color-primario">
+    <div class="table-responsive">
+        <h3 class="text-center display-7">{{puntuacionJuego.nombreJuego}}</h3>
+        <table class="table table-bordered table-dark">
+            <thead class="thead-light">
+                <tr>
+                    <th class="col"></th>
+                    <th class="col">Email</th>
+                    <th class="col">Puntuación</th>
+                    <th class="col">Fecha</th>
+                </tr>
+            </thead>
+            <tbody class="text-break">
+                <tr *ngFor="let puntuacion of puntuacionJuego.puntuacion; let i = index" >
+                    <td>{{i+1}}</td>
+                    <td [ngClass]="{'puntuacion-usuario': this.userEmail == puntuacion.email}">{{puntuacion.email}}</td>
+                    <td [ngClass]="{'puntuacion-usuario': this.userEmail == puntuacion.email}">{{puntuacion.puntuacion}}</td>
+                    <td [ngClass]="{'puntuacion-usuario': this.userEmail == puntuacion.email}">{{puntuacion.fecha}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

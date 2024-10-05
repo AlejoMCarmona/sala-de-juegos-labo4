@@ -1,0 +1,18 @@
+
+h5 {
+    font-family: var(--fuente-titulo-principal);
+}
+
+thead {
+    font-family: var(--fuente-titulo-principal);
+    font-size: 1rem;
+}
+
+tbody {
+    font-size: .8rem;
+}
+
+.puntuacion-usuario {
+    color: green;
+    font-weight: bolder;;
+}

@@ -3,7 +3,7 @@ import { MayorOMenorService } from './services/mayor-o-menor.service';
 import { Card } from './interfaces/cards.interface';
 import { MensajesService } from '../../../services/mensajes.service';
 import { AuthService } from '../../../services/auth.service';
-import { PuntuacionService } from '../../../services/puntuacion.service';
+import { PuntuacionService } from '../../puntuaciones/puntuacion.service';
 
 @Component({
   selector: 'app-mayor-o-menor',

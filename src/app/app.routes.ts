@@ -13,5 +13,6 @@ export const routes: Routes = [
         { path: 'registro', component: RegistroComponent },
         { path: 'juegos', loadChildren: () => import('./modules/juegos/juegos.module').then(m => m.JuegosModule) },
         { path: 'chat', loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule) },
+        { path: 'puntuaciones', loadChildren: () => import('./modules/puntuaciones/puntuaciones.module').then(m => m.PuntuacionesModule) },
         { path: '**', component: PaginaNoEncontradaComponent },
 ];

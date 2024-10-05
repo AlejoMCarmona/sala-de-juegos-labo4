@@ -5,7 +5,7 @@ import { Flags } from './interfaces/country.interface';
 import { Options } from './interfaces/options.interface';
 import { MensajesService } from '../../../services/mensajes.service';
 import { AuthService } from '../../../services/auth.service';
-import { PuntuacionService } from '../../../services/puntuacion.service';
+import { PuntuacionService } from '../../puntuaciones/puntuacion.service';
 
 @Component({
   selector: 'app-preguntados',
