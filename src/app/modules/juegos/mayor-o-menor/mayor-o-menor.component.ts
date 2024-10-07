@@ -17,28 +17,21 @@ export class MayorOMenorComponent implements OnInit {
   public cartasTotales = 30;
   public cartaJugador?: Card;
   public siguienteCarta?: Card;
-  public estaLogueado = true;
   public botonesDeshabilitados = false;
   public puntuacion: number = 0;
   
   constructor(private _mayorOMenorService: MayorOMenorService, private _mensajeService: MensajesService, private _authService: AuthService, private _puntuacionService: PuntuacionService) {}
 
   ngOnInit() {
-    this._authService.estaAutenticado().then(resultado => {
-      this.estaLogueado = resultado;
-      if (!this.estaLogueado) return;
-      // Puede ser reemplazado por una llamada a la API real
-      this._mayorOMenorService.obtenerMazoDeCartasSimulado(this.cartasTotales).then(response => {
-        response.cards.forEach(c => {
-          const valorCarta = Number(c.value);
-          if (!isNaN(valorCarta)) {
-            this.cartasJuego.push(c);
-          }
-        });
-        this.iniciarJuego();
+    this._mayorOMenorService.obtenerMazoDeCartasSimulado(this.cartasTotales).then(response => {
+      response.cards.forEach(c => {
+        const valorCarta = Number(c.value);
+        if (!isNaN(valorCarta)) {
+          this.cartasJuego.push(c);
+        }
       });
+      this.iniciarJuego();
     });
-
   }
 
   private iniciarJuego() {

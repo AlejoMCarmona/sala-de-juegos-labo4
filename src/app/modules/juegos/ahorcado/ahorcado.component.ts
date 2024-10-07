@@ -17,19 +17,13 @@ export class AhorcadoComponent implements OnInit {
   public letrasDeshabilitadas: Set<string> = new Set();
   public intentosRestantes!: number;
   public puntuacion!: number;
-  public estaLogueado: boolean = false;
   private rutaUrlImagenes: string = "assets/ahorcado/";
   public urlImagenActual: string = "";
 
   constructor(private auth: AuthService, private _mensajeService: MensajesService, private _puntuacionService: PuntuacionService) {}
 
   ngOnInit(): void {
-    this.auth.estaAutenticado().then(resultado => {
-      this.estaLogueado = resultado;
-      if(!this.estaLogueado) return;
-
-      this.iniciarJuego();
-    });
+    this.iniciarJuego();
   }
 
   public iniciarJuego() {

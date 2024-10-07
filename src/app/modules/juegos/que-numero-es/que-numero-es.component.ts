@@ -9,7 +9,6 @@ import { PuntuacionService } from '../../puntuaciones/puntuacion.service';
   styleUrls: ['./que-numero-es.component.css'],
 })
 export class QueNumeroEsComponent implements OnInit {
-  public estaLogueado: boolean = true;
   public numero!: number;
   public numeroOculto: boolean = true;
   public numeroMayor!: number;
@@ -60,12 +59,7 @@ export class QueNumeroEsComponent implements OnInit {
   constructor(private _mensajeService: MensajesService, private _authService: AuthService, private _puntuacionService: PuntuacionService) {}
 
   ngOnInit(): void {
-    this._authService.estaAutenticado().then(resultado => {
-      this.estaLogueado = resultado;
-      if(!this.estaLogueado) return;
-
-      this.iniciarJuego();
-    });
+    this.iniciarJuego();
   }
 
   private iniciarJuego() {

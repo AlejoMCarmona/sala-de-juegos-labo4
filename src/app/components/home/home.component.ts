@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { JuegosModule } from '../../modules/juegos/juegos.module';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -16,11 +15,7 @@ import { Subscription } from 'rxjs';
 export class HomeComponent implements OnInit {
   public estaLogueado!: boolean;
 
-  constructor (private authService: AuthService) {}
-
   ngOnInit() {
-    this.authService.estaAutenticado().then(resultado => {
-      this.estaLogueado = resultado;
-    });
+    this.estaLogueado = AuthService.estaLogueado;
   };
 }

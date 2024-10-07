@@ -1,35 +1,30 @@
 <div class="container texto-color-primario texto-fuente-primaria">
     <p class="text-center mb-4 display-1">¿Qué número es?</p>
-    <ng-template #mensajeLog>
-      <p class="fs-5 text-center text-white">¿Qué haces aquí? Debes estar logueado para poder jugar.</p>
-    </ng-template>
-    <div *ngIf="estaLogueado; else mensajeLog">
-      <div class="container pantalla text-black">
-        <div class="row numero text-center mt-4">
-          <p class="fw-bold">Adivina el número que se encuentra dentro de 1 y 100.</p>
+    <div class="container pantalla text-black">
+      <div class="row numero text-center mt-4">
+        <p class="fw-bold">Adivina el número que se encuentra dentro de 1 y 100.</p>
+      </div>
+      <div class="row numero text-center mt-4 mx-auto w-50">
+          <input #inputNumero type="number" placeholder="Número" class="form-control mb-2">
+          <button class="btn btn-secondary fw-bold w-100" (click)="adivinarNumero(inputNumero)">Adivinar</button>
         </div>
-        <div class="row numero text-center mt-4 mx-auto w-50">
-            <input #inputNumero type="number" placeholder="Número" class="form-control mb-2">
-            <button class="btn btn-secondary fw-bold w-100" (click)="adivinarNumero(inputNumero)">Adivinar</button>
-          </div>
-        <div class="row informacion text-center justify-content-center my-4">
-          <p class="col-md-4 col-12">El número es mayor que {{ numeroMenor }}</p>
-          <p class="col-md-4 col-12">El número es menor que {{ numeroMayor }}</p>
-        </div>
-        <div class="container pistas mb-4 p-3">
-          <div class="row m-1">
-            <p class="text-center text-white fs-4">PISTAS (15 puntos)</p>
-            <div class="col-lg-4 col-12" *ngFor="let pista of pistas">
-                <button class="btn btn-secondary w-100 m-1" [ngClass]="{ 'boton-pista-descubierta': pista.descubierta }" (click)="!pista.descubierta ? obtenerPista(pista.id) : null">
-                {{ pista.descubierta ? pista.texto : pista.textoOculto }}
-                </button>
-            </div>
+      <div class="row informacion text-center justify-content-center my-4">
+        <p class="col-md-4 col-12">El número es mayor que {{ numeroMenor }}</p>
+        <p class="col-md-4 col-12">El número es menor que {{ numeroMayor }}</p>
+      </div>
+      <div class="container pistas mb-4 p-3">
+        <div class="row m-1">
+          <p class="text-center text-white fs-4">PISTAS (15 puntos)</p>
+          <div class="col-lg-4 col-12" *ngFor="let pista of pistas">
+              <button class="btn btn-secondary w-100 m-1" [ngClass]="{ 'boton-pista-descubierta': pista.descubierta }" (click)="!pista.descubierta ? obtenerPista(pista.id) : null">
+              {{ pista.descubierta ? pista.texto : pista.textoOculto }}
+              </button>
           </div>
         </div>
-        <div class="row puntuacion text-center">
-            <p>PUNTUACIÓN: {{this.puntuacion}}</p>
-            <p>Vidas restantes: {{this.vidas}}</p>
-        </div>
+      </div>
+      <div class="row puntuacion text-center">
+          <p>PUNTUACIÓN: {{this.puntuacion}}</p>
+          <p>Vidas restantes: {{this.vidas}}</p>
       </div>
     </div>
   </div>

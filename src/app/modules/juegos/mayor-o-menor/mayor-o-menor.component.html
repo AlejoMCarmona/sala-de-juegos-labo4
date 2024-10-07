@@ -1,27 +1,22 @@
 <div class="container texto-color-primario texto-fuente-primaria">
     <p class="text-center mb-4 display-1">Mayor o menor</p>
-    <ng-template #mensajeLog>
-        <p class="fs-5 text-center text-white">¿Qué haces aquí? Debes estar logueado para poder jugar.</p> <!--IMPLEMENTAR-->
-    </ng-template>
-    <div *ngIf="estaLogueado; else mensajeLog">
-        <div class="pantalla-cartas d-flex flex-column justify-content-center">
-            <div class="d-flex justify-content-center">
-                <div class="carta m-4">
-                    <p class="text-center">ACTUAL</p>
-                    <img class="imagen-carta img-fluid" src="{{cartaJugador?.image}}">
-                </div>
-                <div class="carta m-4">
-                    <p class="text-center">SIGUIENTE</p>
-                    <img *ngIf="botonesDeshabilitados" class="imagen-carta img-fluid" src="{{siguienteCarta?.image}}">
-                    <img *ngIf="!botonesDeshabilitados" class="imagen-carta img-fluid" src="{{urlMazo}}">
-                </div>
+    <div class="pantalla-cartas d-flex flex-column justify-content-center">
+        <div class="d-flex justify-content-center">
+            <div class="carta m-4">
+                <p class="text-center">ACTUAL</p>
+                <img class="imagen-carta img-fluid" src="{{cartaJugador?.image}}">
             </div>
+            <div class="carta m-4">
+                <p class="text-center">SIGUIENTE</p>
+                <img *ngIf="botonesDeshabilitados" class="imagen-carta img-fluid" src="{{siguienteCarta?.image}}">
+                <img *ngIf="!botonesDeshabilitados" class="imagen-carta img-fluid" src="{{urlMazo}}">
+            </div>
+        </div>
 
-            <p class="text-center">¿La siguiente carta es mayor o menor?</p>
-             <div class="d-flex flex-md-row flex-column">
-                <button [disabled]="botonesDeshabilitados" class="btn btn-light w-100" (click)="elegirCarta(false)">Menor</button>
-                <button [disabled]="botonesDeshabilitados" class="btn btn-light w-100" (click)="elegirCarta(true)">Mayor</button>
-             </div>
+        <p class="text-center">¿La siguiente carta es mayor o menor?</p>
+        <div class="d-flex flex-md-row flex-column">
+            <button [disabled]="botonesDeshabilitados" class="btn btn-light w-100" (click)="elegirCarta(false)">Menor</button>
+            <button [disabled]="botonesDeshabilitados" class="btn btn-light w-100" (click)="elegirCarta(true)">Mayor</button>
         </div>
     </div>
 

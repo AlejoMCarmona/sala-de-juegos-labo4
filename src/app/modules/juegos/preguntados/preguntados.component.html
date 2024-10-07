@@ -1,9 +1,6 @@
 <div class="container texto-color-primario texto-fuente-primaria">
     <p class="text-center mb-4 display-1">¿Qué bandera es?</p>
-    <ng-template #mensajeLog>
-        <p class="fs-5 text-center text-white">¿Qué haces aquí? Debes estar logueado para poder jugar.</p>
-    </ng-template>
-    <div class="pantalla-preguntados row mx-auto" *ngIf="estaLogueado; else mensajeLog">
+    <div class="pantalla-preguntados row mx-auto">
         <div class="d-flex justify-content-center">
             <img *ngIf="banderaPais" class="imagen-bandera img-fluid mx-auto my-4 border border-2" [src]="this.banderaPais.png" alt="">
         </div>   

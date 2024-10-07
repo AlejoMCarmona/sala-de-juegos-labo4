@@ -14,7 +14,6 @@ import { PuntuacionService } from '../../puntuaciones/puntuacion.service';
 })
 
 export class PreguntadosComponent implements OnInit {
-  public estaLogueado: boolean = true;
   public banderaPais!: Flags;
   private codigosDePaises!: Cca3Code[];
   public opciones!: Options[];
@@ -24,14 +23,9 @@ export class PreguntadosComponent implements OnInit {
   constructor(private _preguntadosService: PreguntadosService, private _mensajesService: MensajesService, private _authService: AuthService, private _puntuacionService: PuntuacionService) {}
 
   ngOnInit(): void {
-    this._authService.estaAutenticado().then(resultado => {
-      this.estaLogueado = resultado;
-      if(!this.estaLogueado) return;
-
-      this._preguntadosService.obtenerCodigosDePaises().then(codigos => {
-        this.codigosDePaises = codigos;
-        this.iniciarJuego();
-      });
+    this._preguntadosService.obtenerCodigosDePaises().then(codigos => {
+      this.codigosDePaises = codigos;
+      this.iniciarJuego();
     });
   }
 
