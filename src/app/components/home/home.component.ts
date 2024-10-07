@@ -15,7 +15,11 @@ import { AuthService } from '../../services/auth.service';
 export class HomeComponent implements OnInit {
   public estaLogueado!: boolean;
 
+  constructor(private _authService: AuthService) {}
+
   ngOnInit() {
-    this.estaLogueado = AuthService.estaLogueado;
+    this._authService.estaAutenticado().then(resultado => {
+      this.estaLogueado = resultado;
+    })
   };
 }

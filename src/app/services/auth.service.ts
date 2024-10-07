@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export class AuthService {
   private usuarioAutenticado: BehaviorSubject<string> = new BehaviorSubject<string>("");
-  public static estaLogueado: boolean = false;
+  public estaLogueado: boolean = false;
 
   constructor(private auth: Auth) {}
 
@@ -20,10 +20,8 @@ export class AuthService {
       // Escucha los cambios en el estado de autenticación del usuario
     onAuthStateChanged(this.auth, user => {
       if (user && user.email) {
-        AuthService.estaLogueado = true;
         this.usuarioAutenticado.next(user.email);
       } else {
-        AuthService.estaLogueado = false;
         this.usuarioAutenticado.next("");
       }
     });
