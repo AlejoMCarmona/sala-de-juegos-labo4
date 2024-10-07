@@ -54,7 +54,7 @@ export class PreguntadosComponent implements OnInit {
   const paisesSeleccionados = paisesMezclados.slice(0, 4);
   const indiceCorrecto = Math.floor(Math.random() * 4);
   const opciones: Options[] = paisesSeleccionados.map((pais, index) => ({
-    name: pais.name.common,
+    name: pais.name,
     cca3: pais.cca3,
     correctAnswer: index === indiceCorrecto,
     disabled: false

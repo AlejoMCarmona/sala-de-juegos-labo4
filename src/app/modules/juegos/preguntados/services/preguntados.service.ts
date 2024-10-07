@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { Cca3Code } from '../interfaces/cca3.interface';
 import { CountryFlag } from '../interfaces/country.interface';
 
@@ -14,8 +14,15 @@ export class PreguntadosService {
   constructor(private _httpClient: HttpClient) { }
 
   public obtenerCodigosDePaises(): Promise<Cca3Code[]> {
-    const url = this.baseUrl + "all?fields=cca3,name";
-    return firstValueFrom(this._httpClient.get<Cca3Code[]>(url));
+    const url = this.baseUrl + "all?fields=cca3,translations";
+    return firstValueFrom(
+      this._httpClient.get<any[]>(url).pipe(
+        map(data => data.map(item => ({
+          cca3: item.cca3,
+          name: item.translations.spa.common
+        })))
+      )
+    );
   }
 
   public obtenerBanderaPais(codigoPais: string): Promise<CountryFlag> {
