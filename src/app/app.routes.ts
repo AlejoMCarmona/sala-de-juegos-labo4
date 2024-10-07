@@ -4,6 +4,7 @@ import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 import { LoginComponent } from './components/login/login.component';
 import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
 import { RegistroComponent } from './components/registro/registro.component';
+import { EncuestaComponent } from './components/encuesta/encuesta.component';
 
 export const routes: Routes = [
         { path: '', redirectTo: '/home', pathMatch: "full" },
@@ -14,5 +15,6 @@ export const routes: Routes = [
         { path: 'juegos', loadChildren: () => import('./modules/juegos/juegos.module').then(m => m.JuegosModule) },
         { path: 'chat', loadChildren: () => import('./modules/chat/chat.module').then(m => m.ChatModule) },
         { path: 'puntuaciones', loadChildren: () => import('./modules/puntuaciones/puntuaciones.module').then(m => m.PuntuacionesModule) },
+        { path: 'encuesta', component: EncuestaComponent },
         { path: '**', component: PaginaNoEncontradaComponent },
 ];

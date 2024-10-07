@@ -3,6 +3,7 @@ import { MensajesService } from '../../services/mensajes.service';
 import { AuthService } from '../../services/auth.service';
 import { addDoc, collection, Firestore, getDocs, limit, orderBy, query, where } from '@angular/fire/firestore';
 import { Puntuacion, PuntuacionJuego } from './interfaces/puntuacion.interface';
+import { obtenerFechaYHoraActual } from '../../shared/utils/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class PuntuacionService {
       const mensaje = {
         email: emailUsuario,
         puntuacion: puntuacion,
-        fecha: this.obtenerFechaYHoraActual()
+        fecha: obtenerFechaYHoraActual()
       }
   
       this._mensajeService.lanzarPreguntaCentro("¿Deseas subir tu puntuación?", `Usuario: ${emailUsuario}; Puntuación: ${puntuacion}`, "¡Por supuesto!", "No, gracias")
@@ -57,8 +58,6 @@ export class PuntuacionService {
       let colRef = collection(this._firestore, `${this.baseNombreColeccion}_${nombre}`);
       const q = query(colRef, orderBy("puntuacion", "desc"), limit(limite));
 
-      console.log("Intento obtener...");
-
       getDocs(q)
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
@@ -77,18 +76,5 @@ export class PuntuacionService {
     }
 
     return puntuacionesJuegos;
-  }
-
-  private obtenerFechaYHoraActual(): string {
-    const fechaActual = new Date();
-  
-    const dia = String(fechaActual.getDate()).padStart(2, '0');
-    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
-    const anio = fechaActual.getFullYear();
-    const horas = String(fechaActual.getHours()).padStart(2, '0'); 
-    const minutos = String(fechaActual.getMinutes()).padStart(2, '0');
-    const segundos = String(fechaActual.getSeconds()).padStart(2, '0');
-  
-    return `${dia}-${mes}-${anio} ${horas}:${minutos}:${segundos}`;
   }
 }

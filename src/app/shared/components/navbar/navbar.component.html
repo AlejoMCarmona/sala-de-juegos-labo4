@@ -23,6 +23,9 @@
           <a class="nav-link" routerLink="puntuaciones" routerLinkActive="active-route">Puntuaciones</a>
         </li>
         <li class="nav-item" *ngIf="estaLogueado == true">
+          <a class="nav-link" routerLink="encuesta" routerLinkActive="active-route">Encuesta</a>
+        </li>
+        <li class="nav-item" *ngIf="estaLogueado == true">
           <a href="#" class="nav-link" routerLinkActive="active-route" (click)="cerrarSesion()">Cerrar sesión</a>
         </li>
       </ul>

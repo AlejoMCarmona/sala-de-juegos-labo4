@@ -1,0 +1,146 @@
+<div class="container texto-color-primario texto-fuente-primaria">
+    <div class="row animate__animated animate__fadeInDown">
+        <h1 class="text-center mb-4 display-1">Encuesta opcional</h1>
+        <p class="text-start col-lg-6 col-12">En Dovahkiin Games, nos preocupamos mucho por la calidad de nuestro sitio y la satisfacción de nuestros usuarios.</p>
+        <p class="text-start col-lg-6 col-12">Te agradeceríamos mucho si puedes completar esta pequeña encuesta para conocer más sus necesidades y como podemos mejorar nuestra experiencia.</p>
+    </div>
+    <div class="container-formulario mx-auto col-12 col-md-8 mt-5 p-5 animate__animated animate__fadeInUp">  
+      <form [formGroup]="formularioEncuesta" (ngSubmit)="enviarEncuesta()">
+        <div class="row">
+            <div class="form-contro-group col-lg-6 col-12">
+                <label for="nombre" class="form-label">Nombre<span class="text-danger">*</span></label>   
+                <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                <div *ngIf="nombre?.touched || nombre?.dirty" class="text-danger mt-1">
+                  <div *ngIf="nombre?.invalid">
+                    El nombre es requerido.
+                  </div>
+                  <div *ngIf="nombre?.hasError('pattern')">
+                    El nombre debe estar formado solo por letras.
+                  </div>
+                </div>
+            </div>
+            <div class="form-contro-group col-lg-6 col-12 mt-lg-0 mt-3">
+                <label for="apellido" class="form-label">Apellido<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="apellido" formControlName="apellido">
+                <div *ngIf="apellido?.touched || apellido?.dirty" class="text-danger mt-1">
+                  <div *ngIf="apellido?.invalid">
+                    El apellido es requerido.
+                  </div>
+                  <div *ngIf="apellido?.hasError('pattern')">
+                    El apellido debe estar formado solo por letras.
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+          <div class="form-control-group col-lg-6 col-12">
+            <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento<span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento" (change)="calcularEdad()" [max]="fechaActual">
+            <div *ngIf="fechaNacimiento?.invalid && (fechaNacimiento?.touched || fechaNacimiento?.dirty)" class="text-danger mt-1">
+              La fecha de nacimiento es requerida.
+            </div>
+          </div>
+          <div class="form-control-group col-lg-6 col-12 mt-lg-0 mt-3">
+            <label for="edad" class="form-label">Edad</label>
+            <input type="text" class="form-control" id="edad" formControlName="edad" readonly>
+            <div *ngIf="edad?.hasError('min') || edad?.hasError('max')" class="text-danger mt-1">
+              La edad debe encontrarse entre los 18 y 99 años.
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="form-control-group col-lg-6 col-12">  
+            <label for="telefono" class="form-label">Telefono<span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="telefono" formControlName="telefono">
+            <div *ngIf="telefono?.touched || telefono?.dirty" class="text-danger mt-1">
+              <div *ngIf="telefono?.invalid">
+                El telefono es requerido.
+              </div>
+              <div *ngIf="telefono?.hasError('pattern')">
+                Debe contener solo números y no ser mayor a 10.
+              </div>
+            </div>
+          </div>
+          <div class="form-control-group col-lg-6 col-12 mt-lg-0 mt-3">
+            <label for="pais" class="form-label">País<span class="text-danger">*</span></label>
+            <select id="pais" class="form-control form-select" id="pais" formControlName="pais">
+              <option value="" disabled selected>Seleccione un país</option>
+              <option *ngFor="let item of listaPaises" [value]="item">{{item}}</option>
+            </select>
+            <div *ngIf="pais?.touched && pais?.invalid" class="text-danger mt-1">
+                El país es requerido.
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row mt-3">
+          <div class="form-control-group col-lg-6 col-12">
+            <label for="juegoFavorito" class="form-label">¿Cuál es su juego favorito?<span class="text-danger">*</span></label>   
+            <select id="juegoFavorito" class="form-control form-select" id="juegoFavorito" formControlName="juegoFavorito">
+              <option value="" disabled selected>Seleccione un juego</option>
+              <option>Ahorcado</option>
+              <option>Mayor o menor</option>
+              <option>¿Qué numero es?</option>
+              <option>Preguntados</option>
+            </select>
+            <div *ngIf="juegoFavorito?.touched && juegoFavorito?.invalid" class="text-danger mt-1">
+                Elegir un juego favorito es requerido.
+            </div>
+          </div>
+          <div class="form-control-group col-lg-6 col-12 mt-lg-0 mt-3">
+            <label for="juegoMenosGusta" class="form-label">¿Cuál es el juego que menos le gusta?<span class="text-danger">*</span></label>   
+            <select id="juegoMenosGusta" class="form-control form-select" id="juegoMenosGusta" formControlName="juegoMenosGusta">
+              <option value="" disabled selected>Seleccione un juego</option>
+              <option>Ahorcado</option>
+              <option>Mayor o menor</option>
+              <option>¿Qué numero es?</option>
+              <option>Preguntados</option>
+            </select>
+            <div *ngIf="juegoMenosGusta?.touched && juegoMenosGusta?.invalid" class="text-danger mt-1">
+                Elegir el juego que menos le gusta es requerido.
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="form-control-group col-12">
+            <p>¿Qué puntaje nos das?<span class="text-danger">*</span></p>
+            <div id="puntajePagina" class="mx-auto">
+              <div *ngFor="let puntuacion of [].constructor(10); let i = index" class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="puntajePagina" [value]="i + 1" id="puntajePagina-{{ i + 1 }}"/>
+                <label class="form-check-label" for="puntajePagina-{{ i + 1 }}">{{ i + 1 }}</label>
+              </div>
+            </div>
+            <div *ngIf="puntajePagina?.touched && puntajePagina?.invalid" class="text-danger mt-1">
+                Debes seleccionar un puntaje.
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="form-control-group col-12">
+            <label for="recomendaciones" class="form-label">Dejanos por favor alguna recomendación.<span class="text-danger">*</span></label>   
+            <textarea class="form-control" id="recomendaciones" style="height: 100px" formControlName="recomendaciones"></textarea>
+            <div *ngIf="recomendaciones?.touched && recomendaciones?.invalid" class="text-danger mt-1">
+                Dejar una recomendación es requerido.
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="form-control-group">
+            <div class="form-check">
+              <input formControlName="aceptoUso" type="checkbox" class="form-check-input" id="aceptoUso">
+              <label for="aceptoUso" class="form-check-label">
+                Acepto que la información proporcionada sea procesada para realizar estadísticas y tener
+                un conocimiento en profundidad de las preferencias y sugerencias de los usuarios de este sitio web. Con respecto a los datos personales, 
+                solo se tendrá en cuenta el país de los usuarios.<span class="text-danger">*</span>
+              </label>   
+            </div>
+            <div *ngIf="aceptoUso?.touched && aceptoUso?.invalid" class="text-danger mt-1">
+              Aceptar el proceso de los datos es obligatorio para poder finalizar con la encuesta.
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary col-12 mt-4">Enviar encuesta</button>
+        <button type="button" class="btn btn-primary col-12 mt-4" (click)="autoCompletarEncuesta()">Autocompletar encuesta</button>
+      </form>
+    </div>
+  </div>
