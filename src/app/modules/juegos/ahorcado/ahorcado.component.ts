@@ -56,9 +56,11 @@ export class AhorcadoComponent implements OnInit {
       if (this.puntuacion >= 5) this.puntuacion -= 5;
       this.urlImagenActual = this.rutaUrlImagenes + "ahorcado-" + this.intentosRestantes + ".png";
       if (this.intentosRestantes == 0) {
-        this._mensajeService.lanzarMensajeError("GAME OVER", "La palabra era '" + this.palabraElegida + "'. Tu puntuación final fue de " + this.puntuacion + " puntos.");
-        this._puntuacionService.subirPuntuacion(this.puntuacion, "ahorcado");
-        this.iniciarJuego();
+        this._mensajeService.lanzarMensajeGameOver("GAME OVER", "La palabra era '" + this.palabraElegida + "'. Tu puntuación final fue de " + this.puntuacion + " puntos.")
+        .then(() => {
+          this._puntuacionService.subirPuntuacion(this.puntuacion, "ahorcado");
+          this.iniciarJuego();
+        });
       }
     }
   }

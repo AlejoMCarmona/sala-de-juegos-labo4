@@ -68,9 +68,11 @@ export class MayorOMenorComponent implements OnInit {
         }
       } else {
         // Si falla
-        this._mensajeService.lanzarMensajeError('GAME OVER','No has adivinado el valor correcto. La carta era un ' + this.siguienteCarta!.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', this.siguienteCarta!.image);
-        this._puntuacionService.subirPuntuacion(this.puntuacion, "mayor-o-menor");
-        this.iniciarJuego();
+        this._mensajeService.lanzarMensajeGameOver('GAME OVER','No has adivinado el valor correcto. La carta era un ' + this.siguienteCarta!.value + '. Puntuación final: ' + this.puntuacion + ' puntos.', this.siguienteCarta!.image)
+        .then(() => {
+          this._puntuacionService.subirPuntuacion(this.puntuacion, "mayor-o-menor");
+          this.iniciarJuego();
+        });
         return;
       }
 

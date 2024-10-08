@@ -65,9 +65,11 @@ export class PreguntadosComponent implements OnInit {
       if (this.ayudaUtilizada) this.ayudaUtilizada = false;
     } else {
       const opcionCorrecta = this.opciones.find(opc => opc.correctAnswer);
-      this._mensajesService.lanzarMensajeError("¡HAZ PERDIDO!", "La bandera era de " + opcionCorrecta?.name + ". Tu puntuación final fue de " + this.puntuacion + " puntos.");
-      this._puntuacionService.subirPuntuacion(this.puntuacion, "preguntados");
-      this.iniciarJuego();
+      this._mensajesService.lanzarMensajeGameOver("GAME OVER", "La bandera era de " + opcionCorrecta?.name + ". Tu puntuación final fue de " + this.puntuacion + " puntos.")
+      .then(() => {
+        this._puntuacionService.subirPuntuacion(this.puntuacion, "preguntados");
+        this.iniciarJuego();
+      });
     }
   }
 

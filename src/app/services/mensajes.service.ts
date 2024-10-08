@@ -49,6 +49,20 @@ export class MensajesService {
     this.lanzarNotificacion(titulo, AlertPosition.TopEnd, AlertIcon.Error, tiempo, img);
   }
 
+  public lanzarMensajeGameOver(titulo: string, mensaje: string, img: string = "") {
+    const options: SweetAlertOptions = {
+      icon: AlertIcon.Error,
+      title: titulo,
+      text: mensaje,
+      position: AlertPosition.Center
+    };
+
+    if(img != "") options.imageUrl = img;
+
+    return Swal.fire(options);
+  }
+
+
   private lanzarNotificacion(titulo: string, posicion: AlertPosition, icono: AlertIcon, tiempo: number = 3000,  img: string = "") {
     const options: SweetAlertOptions = {
       toast: true,

@@ -64,7 +64,6 @@ export class QueNumeroEsComponent implements OnInit {
 
   private iniciarJuego() {
     this.numero = this.generarNumeroAleatorio(1, 100);
-    console.log(this.numero);
     this.numeroOculto = true;
     this.numeroMenor = this.crearNumeroMenor(this.numero);
     this.numeroMayor = this.crearNumeroMayor(this.numero);
@@ -187,9 +186,11 @@ export class QueNumeroEsComponent implements OnInit {
     } else {
       this.vidas -= 1;
       if (this.vidas == 0) {
-        this._mensajeService.lanzarMensajeError("GAME OVER", `Te quedaste sin vidas. Tu puntuación final fue de ${this.puntuacion} puntos. El número era el ${this.numero}`);
-        this._puntuacionService.subirPuntuacion(this.puntuacion, "que-numero-es");
-        this.iniciarJuego();
+        this._mensajeService.lanzarMensajeGameOver("GAME OVER", `Te quedaste sin vidas. Tu puntuación final fue de ${this.puntuacion} puntos. El número era el ${this.numero}`)
+        .then(() => {
+          this._puntuacionService.subirPuntuacion(this.puntuacion, "que-numero-es");
+          this.iniciarJuego();
+        });
         return;
       } 
       this._mensajeService.lanzarNotificacionErrorCentro("Error, no es el número " + numeroEntero, 1500);
